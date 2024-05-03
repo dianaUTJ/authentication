@@ -80,7 +80,7 @@ function handleImageError() {
                     </nav>
                 </header>
 
-                <main class="mt-6">
+                <main class="mt-6 te">
                     <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
                         <a
                             href="https://laravel.com/docs"
