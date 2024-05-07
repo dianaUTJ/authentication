@@ -15,6 +15,10 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
+        "laravel-lang/actions": "^1.8",
+        "laravel-lang/attributes": "^2.10",
+        "laravel-lang/common": "^6.2",
+        "laravel-lang/lang": "^15.2",
         "laravel/breeze": "^2.0",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
