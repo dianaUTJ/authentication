@@ -12,7 +12,7 @@ use app\Models\User;
 
 class Users extends BaseWidget
 {
-    // protected int | string | array $columnSpan = "full";//full width of the widget
+    protected int | string | array $columnSpan = "full";//full width of the widget
     public function table(Table $table): Table
     {
         return $table
