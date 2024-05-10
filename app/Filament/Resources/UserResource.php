@@ -45,6 +45,11 @@ class UserResource extends Resource
                     ->hiddenOn('edit')
                     ->maxLength(255),
                 FileUpload::make('image'),
+                Forms\Components\Select::make('roles')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable()
 
             ]);
     }
