@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use DragonCode\PrettyArray\Services\File;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+
+
 
 class UserResource extends Resource
 {
@@ -39,6 +44,8 @@ class UserResource extends Resource
                     ->required()
                     ->hiddenOn('edit')
                     ->maxLength(255),
+                FileUpload::make('image'),
+
             ]);
     }
 
@@ -63,6 +70,7 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                ImageColumn::make('image')
             ])
             ->filters([
                 //

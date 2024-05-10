@@ -7,6 +7,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use App\Filament\Resources\UserResource\Pages;
+use Filament\Tables\Columns\ImageColumn;
+
 use app\Models\User;
 
 
@@ -22,6 +24,8 @@ class Users extends BaseWidget
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                 ->searchable(),
+                Tables\Columns\TextColumn::make('username')
+                ->searchable(),
             Tables\Columns\TextColumn::make('email')
                 ->searchable(),
             Tables\Columns\TextColumn::make('email_verified_at')
@@ -35,6 +39,7 @@ class Users extends BaseWidget
                 ->dateTime()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
+            ImageColumn::make('image'),
             ])
             ->actions([
                 // Tables\Actions\ViewAction::make()

@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
@@ -23,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'username',
         'email_verified_at',
+        'image'
     ];
 
     /**
