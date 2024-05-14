@@ -20,7 +20,7 @@ class EditProfile extends BaseEditProfile
                     ->label('Imagen de perfil'),
                 TextInput::make('username')
                     ->label('Nombre de usuario')
-                    //->required()
+                    ->required()
                     ->maxLength(255),
                 $this->getNameFormComponent(),
                 $this->getEmailFormComponent(),

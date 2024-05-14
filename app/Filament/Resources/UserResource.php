@@ -32,6 +32,7 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('username')
+                    ->required()
                     ->unique(ignorable: fn ($record) => $record)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
@@ -78,7 +79,8 @@ class UserResource extends Resource
                 ImageColumn::make('image')
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('name')
+                    ->query(fn (Builder $query): Builder=> $query->where('name','Admin'))
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -106,5 +108,11 @@ class UserResource extends Resource
             'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+    public static function query(): Builder
+    {
+        return parent::query()->whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'super_admin');
+        });
     }
 }
