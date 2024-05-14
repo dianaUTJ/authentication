@@ -11,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 
 
+
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasRoles;
@@ -51,4 +52,5 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
 }
