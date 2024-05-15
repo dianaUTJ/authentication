@@ -8,12 +8,15 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use App\Filament\Resources\UserResource\Pages;
 use Filament\Tables\Columns\ImageColumn;
+use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
+
 
 use app\Models\User;
 
 
 class Users extends BaseWidget
 {
+    use HasWidgetShield;
     protected int | string | array $columnSpan = "full";//full width of the widget
     public function table(Table $table): Table
     {
