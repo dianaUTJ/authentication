@@ -76,11 +76,19 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                ImageColumn::make('image')
+                ImageColumn::make('image'),
+                // Tables\Columns\TextColumn::make('roles.name')
+
+
             ])
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->whereDoesntHave('roles', function ($query) {
+                    $query->where('name', 'super_admin');
+                        //   ->orWhere('name', 'administrator');
+                });
+            })
             ->filters([
-                Tables\Filters\Filter::make('name')
-                    ->query(fn (Builder $query): Builder=> $query->where('name','Admin'))
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -88,7 +96,7 @@ class UserResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -109,10 +117,5 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
-    public static function query(): Builder
-    {
-        return parent::query()->whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'super_admin');
-        });
-    }
+
 }

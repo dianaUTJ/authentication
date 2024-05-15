@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,8 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
-
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 {
@@ -56,6 +57,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return asset($this->image);
+        return $this->image;
+        // return asset($this->image);
+    }
+
+    public function posts() : HasMany
+    {
+        return $this->hasMany(Post::class);
     }
 }
