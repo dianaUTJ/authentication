@@ -81,12 +81,12 @@ class UserResource extends Resource
 
 
             ])
-            ->modifyQueryUsing(function (Builder $query) {
-                $query->whereDoesntHave('roles', function ($query) {
-                    $query->where('name', 'super_admin');
-                        //   ->orWhere('name', 'administrator');
-                });
-            })
+            // ->modifyQueryUsing(function (Builder $query) {
+            //     $query->whereDoesntHave('roles', function ($query) {
+            //         $query->where('name', 'super_admin');
+            //             //   ->orWhere('name', 'administrator');
+            //     });
+            // })
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
@@ -126,6 +126,8 @@ class UserResource extends Resource
     public static function getEloquentQuery(): Builder
 {
     return parent::getEloquentQuery()
+        ->UserList()
+        ->IsNotAdmin()
         ->withoutGlobalScopes([
             SoftDeletingScope::class,
         ]);

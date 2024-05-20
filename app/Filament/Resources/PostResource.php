@@ -25,7 +25,10 @@ class PostResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
+                    ->relationship(name:'user',
+                                   titleAttribute: 'name',
+                                   modifyQueryUsing: fn ($query) => $query->scopes(['LoggedUser'])
+                    )
                     ->required(),
                 Forms\Components\TextInput::make('title')
                     ->required()
@@ -44,7 +47,6 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
@@ -95,7 +97,7 @@ class PostResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->where('user_id', auth()->id())
+            ->UserPosts()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);

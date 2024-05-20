@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Support\Facades\Auth;
 
 
 class Post extends Model
@@ -27,8 +27,14 @@ class Post extends Model
         'slug',
     ];
 
-    public function scopeUser(Builder $query): void
+    public function scopeUserPosts(Builder $query): void
     {
-        $query->where('user_id', auth()->id());
+        $user = User::find(Auth::user()->id);
+
+        if ($user->hasRole('super_admin')) {
+            $query;
+        } else {
+            $query->where('user_id', auth()->id());
+        }
     }
 }
