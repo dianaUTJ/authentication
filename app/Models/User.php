@@ -13,10 +13,13 @@ use Spatie\Permission\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -57,12 +60,17 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->image;
-        // return asset($this->image);
+        // return $this->image;
+        return asset($this->image);
     }
 
     public function posts() : HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function scopeLoggedUser(Builder $query): void
+    {
+        $query->where('user_id', auth()->id());
     }
 }
