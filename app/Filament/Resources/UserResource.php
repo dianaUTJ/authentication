@@ -29,13 +29,16 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label(__('user.name'))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('username')
+                    ->label(__('user.username'))
                     ->required()
                     ->unique(ignorable: fn ($record) => $record)
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label(__('user.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
@@ -60,12 +63,16 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('user.name'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('username')
+                    ->label(__('user.username'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label(__('user.email'))
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
+                    ->label(__('user.email_verified_at'))
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -76,17 +83,19 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                ImageColumn::make('image'),
+                ImageColumn::make('image')
+                    ->label(__('user.image')),
+
                 // Tables\Columns\TextColumn::make('roles.name')
 
 
             ])
-            ->modifyQueryUsing(function (Builder $query) {
-                $query->whereDoesntHave('roles', function ($query) {
-                    $query->where('name', 'super_admin');
-                        //   ->orWhere('name', 'administrator');
-                });
-            })
+            // ->modifyQueryUsing(function (Builder $query) {
+            //     $query->whereDoesntHave('roles', function ($query) {
+            //         $query->where('name', 'super_admin');
+            //             //   ->orWhere('name', 'administrator');
+            //     });
+            // })
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
@@ -126,6 +135,8 @@ class UserResource extends Resource
     public static function getEloquentQuery(): Builder
 {
     return parent::getEloquentQuery()
+        ->UserList()
+        ->IsNotAdmin()
         ->withoutGlobalScopes([
             SoftDeletingScope::class,
         ]);

@@ -32,7 +32,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         'password',
         'username',
         'email_verified_at',
-        'image'
+        'image',
+        'role'
     ];
 
     /**
@@ -71,6 +72,19 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 
     public function scopeLoggedUser(Builder $query): void
     {
-        $query->where('user_id', auth()->id());
+        $query->where('id', auth()->id());
+    }
+
+    public function scopeUserList(Builder $query): void
+    {
+        if( auth()->user()->role != 'super_admin' ) {
+            $query->where('id','!=', auth()->id());
+        }
+    }
+
+    public function scopeIsNotAdmin(Builder $query): void
+    {
+        $query->whereDoesntHave('roles', function ($query) {
+             $query->where('name', 'super_admin');});
     }
 }
