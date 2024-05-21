@@ -25,6 +25,7 @@ class Post extends Model
         'title',
         'content',
         'slug',
+        'status',
     ];
 
     public function scopeUserPosts(Builder $query): void
