@@ -70,6 +70,11 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         return $this->hasMany(Post::class);
     }
 
+    public function orders() : HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function scopeLoggedUser(Builder $query): void
     {
         $query->where('id', auth()->id());
@@ -87,4 +92,5 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         $query->whereDoesntHave('roles', function ($query) {
              $query->where('name', 'super_admin');});
     }
+
 }

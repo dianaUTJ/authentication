@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Tables\View\TablesRenderHook;
 use Illuminate\Database\Eloquent\Builder;
@@ -80,6 +81,7 @@ class PostResource extends Resource
                     ->label(__('post.status'))
                     ->sortable()
                     ->searchable(),
+
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

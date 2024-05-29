@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // $data['password'] = Str::password(8);

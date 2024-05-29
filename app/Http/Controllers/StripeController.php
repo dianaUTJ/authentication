@@ -14,6 +14,7 @@ class StripeController extends Controller
     public function checkout()
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        $YOUR_DOMAIN = 'http://authentication.test';
 
         $session = \Stripe\Checkout\Session::create([
             'line_items' => [[
@@ -27,8 +28,8 @@ class StripeController extends Controller
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('checkout.success'),
-            'cancel_url' => route('checkout.cancel'),
+            'ui_mode' => 'embedded',
+            'return_url' => $YOUR_DOMAIN . '/return.html?session_id={CHECKOUT_SESSION_ID}',
         ]);
 
         return redirect($session->url);

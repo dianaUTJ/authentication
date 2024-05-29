@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "anayarojo/shoppingcart": "^4.2",
         "bezhansalleh/filament-shield": "^3.2",
         "filament/filament": "^3.2",
         "inertiajs/inertia-laravel": "^1.0",
