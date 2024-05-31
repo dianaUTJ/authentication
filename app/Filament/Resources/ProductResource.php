@@ -17,8 +17,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\Actions;
 use Filament\Infolists\Components\Actions\Action;
-use NumberFormatter;
+use App\Livewire\Checkout;
 
+use NumberFormatter;
 
 
 
@@ -48,7 +49,7 @@ class ProductResource extends Resource
                     }),
                 Actions::make([
                     Action::make('Buy product')
-                        ->url('/'),
+                    ->url(fn(Product $record): string =>  self::getUrl('checkout', ['record' => $record]))
                 ]),
             ]);
     }
@@ -77,6 +78,7 @@ class ProductResource extends Resource
             ]);
     }
 
+
     public static function getRelations(): array
     {
         return [
@@ -90,6 +92,7 @@ class ProductResource extends Resource
             'index' => Pages\ListProducts::route('/'),
             'create' => Pages\CreateProduct::route('/create'),
             'view' => Pages\ViewProduct::route('/{record}'),
+            'checkout' => Pages\Checkout::route('/checkout/{record}'),
         ];
     }
 }

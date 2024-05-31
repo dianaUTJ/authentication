@@ -15,11 +15,11 @@ use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
-
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 {
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, Billable;
 
     /**
      * The attributes that are mass assignable.
