@@ -55,27 +55,22 @@ class Checkout extends Page
         $this->record = $this->resolveRecord($record);
 
         //stripe checkout
-        // $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        // $customer = $stripe->customers->create([
-        //     'email' => $user->email,
-        //     'name' => $user->name,
-        // ]);
-        // $paymentIntent = $stripe->paymentIntents->create([
-        //     'payment_method_types' => ['card'],
-        //     'amount' => $this->record->price,
-        //     'currency' => 'mxn',
-        //     'customer' => $customer->id,
-        // ]);
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $customer = $stripe->customers->create([
+            'email' => $user->email,
+            'name' => $user->name,
+        ]);
+        $paymentIntent = $stripe->paymentIntents->create([
+            'payment_method_types' => ['card'],
+            'amount' => $this->record->price,
+            'currency' => 'mxn',
+            'customer' => $customer->id,
+        ]);
 
-        // $this->clientSecret = $paymentIntent->client_secret;
+        $this->clientSecret = $paymentIntent->client_secret;
     }
 
-    public function displayNotification(){
-        Notification::make()
-            ->title('Saved successfully')
-            ->success()
-            ->send();
-    }
+
 
 
 

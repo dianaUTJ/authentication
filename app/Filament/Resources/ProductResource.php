@@ -17,7 +17,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\Actions;
 use Filament\Infolists\Components\Actions\Action;
-use App\Livewire\Checkout;
+
+
 
 use NumberFormatter;
 
@@ -33,6 +34,14 @@ class ProductResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('name')
+                    ->label(__('product.name'))
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('price')
+                    ->label(__('product.price'))
+                    ->required()
+                    ->numeric()
                 //
             ]);
     }
@@ -40,8 +49,10 @@ class ProductResource extends Resource
     {
         return $infolist
             ->schema([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label(__('product.name')),
                 TextEntry::make('price')
+                    ->label(__('product.price'))
                     ->formatStateUsing(function ($state) {
                         $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
 
@@ -50,6 +61,7 @@ class ProductResource extends Resource
                 Actions::make([
                     Action::make('Buy product')
                     ->url(fn(Product $record): string =>  self::getUrl('checkout', ['record' => $record]))
+
                 ]),
             ]);
     }
@@ -57,8 +69,10 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')
+                    ->label(__('product.name')),
                 TextColumn::make('price')
+                    ->label(__('product.price'))
                     ->formatStateUsing(function ($state) {
                         $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
 

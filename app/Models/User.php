@@ -61,7 +61,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->image;
+        if ($this->image) {
+            return asset($this->image);
+        } else  {
+            return null;
+        }
+        // return $this->image();
+
         // return asset($this->image);
     }
 
