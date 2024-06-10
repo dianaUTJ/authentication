@@ -19,7 +19,4 @@ class Checkout extends Component
     }
 
 
-
-
-
 }
