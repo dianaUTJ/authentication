@@ -3,6 +3,8 @@
 namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
+use Illuminate\Http\Request;
+use App\Models\Payment;
 
 
 class CheckoutSuccess extends Page
@@ -17,6 +19,28 @@ class CheckoutSuccess extends Page
         return 'Checkout Status';
     }
 
+    public function savePayment(Request $request): void
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $paymentIntentId = $request->input('payment_intent');
+        // dd($clientSecret);
+        $payment = $stripe->paymentIntents->retrieve($paymentIntentId, []);
 
+        $payment = Payment::create([
+            'stripe_id' => $paymentIntentId,
+            'amount' => $payment->amount,
+            'currency' => $payment->currency,
+            'customer' => $payment->customer,
+            'stripe_status' => $payment->status,
+        ]);
+        // dd($payment);
 
+        $payment->save();
+
+    }
+
+    public function mount(): void
+    {
+        // $this->savePayment(request());
+    }
 }
