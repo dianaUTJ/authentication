@@ -43,7 +43,7 @@ class Checkout extends Page
 
     public function getSubheading(): ?string
     {
-        return __('$' . $this->record->price/100);
+        return __('$' . $this->record->price / 100);
     }
 
     public function mount(int | string $record): void
@@ -56,25 +56,20 @@ class Checkout extends Page
 
         //stripe checkout
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        $customer = $stripe->customers->create([
-            'email' => $user->email,
-            'name' => $user->name,
-        ]);
+
+        // $customer =  $stripe->customers->create([
+        //         'email' => $user->email,
+        //         'name' => $user->name,
+        //     ]);
+
+        $customer = $user->username;
         $paymentIntent = $stripe->paymentIntents->create([
             'payment_method_types' => ['card'],
             'amount' => $this->record->price,
             'currency' => 'mxn',
-            'customer' => $customer->id,
+            'customer' => $customer,
         ]);
 
         $this->clientSecret = $paymentIntent->client_secret;
     }
-
-
-
-
-
-
-
-
 }

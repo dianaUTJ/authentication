@@ -30,7 +30,6 @@ class ListPayments extends ListRecords
         // $history =  $stripe->balanceTransactions->all(['limit' => 3]);
         $history = $stripe->charges->all();
         //dd($history);
-        $payments = Payment::class::get();
         // dd($payments);
         foreach ($history->autoPagingIterator() as $charge) {
             $paymentIntentId = $charge->payment_intent;

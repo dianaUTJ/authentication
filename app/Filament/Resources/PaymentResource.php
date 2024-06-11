@@ -13,6 +13,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use NumberFormatter;
+use Filament\Tables\Filters\SelectFilter;
+
 
 class PaymentResource extends Resource
 {
@@ -76,6 +78,11 @@ class PaymentResource extends Resource
             ])
             ->filters([
                 //
+                SelectFilter::make('stripe_status')
+                    ->options([
+                        'succeeded' => 'Succeeded',
+                        'failed' => 'Failed',
+                    ]),
             ])
             ->actions([
 
