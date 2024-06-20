@@ -11,9 +11,9 @@ class Product extends Model
 {
     use HasFactory, HasRoles;
 
-    public function orders(): HasMany
+    public function payments(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Payment::class);
     }
 
     protected $fillable = [

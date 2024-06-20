@@ -59,8 +59,9 @@ class PaymentResource extends Resource
                     }),
                 // Tables\Columns\TextColumn::make('currency')
                 //     ->searchable(),
-                Tables\Columns\TextColumn::make('customer')
+                Tables\Columns\TextColumn::make('user.name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('product.name'),
                 Tables\Columns\TextColumn::make('stripe_status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('stripe_created')

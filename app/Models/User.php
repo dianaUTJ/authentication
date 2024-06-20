@@ -33,7 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         'username',
         'email_verified_at',
         'image',
-        'role'
+        'role',
+        'stripe_id',
     ];
 
     /**
@@ -76,9 +77,9 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         return $this->hasMany(Post::class);
     }
 
-    public function orders() : HasMany
+    public function payments() : HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Payment::class);
     }
 
     public function scopeLoggedUser(Builder $query): void

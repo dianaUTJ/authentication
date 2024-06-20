@@ -20,14 +20,14 @@ class ListPayments extends ListRecords
 
     public function mount(): void
     {
-        $this->getPayments();
+        // $this->getPayments();
     }
 
 
     public function getPayments()
     {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        // $history =  $stripe->balanceTransactions->all(['limit' => 3]);
+
         $history = $stripe->charges->all();
         //dd($history);
         // dd($payments);
@@ -37,12 +37,12 @@ class ListPayments extends ListRecords
 
             if ($payment) {
                 // Payment intent exists, update the payment record
-                $payment->update([
-                    // Update the necessary
-                    'amount' => $charge->amount,
-                    'stripe_status' => $charge->status,
 
-                ]);
+                // $payment->update([
+                //     // Update the necessary
+                //     'amount' => $charge->amount,
+                //     'stripe_status' => $charge->status,
+                // ]);
             } else {
                 // Payment intent does not exist, create a new payment record
                 Payment::create([
@@ -52,8 +52,14 @@ class ListPayments extends ListRecords
                     'customer' => $charge->customer,
                     'stripe_status' => $charge->status,
                     'stripe_created' => $charge->created,
+                    'user_id' => $charge->metadata->user_id,
+                    'product_id' => $charge->metadata->product_id,
                 ]);
             }
         }
     }
+
+
 }
+
+

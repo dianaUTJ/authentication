@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Support\Htmlable;
 use Filament\Notifications\Notification;
+use App\Models\Payment;
 
 
 class Checkout extends Page
@@ -24,7 +25,7 @@ class Checkout extends Page
     // protected static ?string $title = 'Checkout';
 
 
-
+    protected $listeners = ['checkout-success' => 'savePayment'];
 
     protected static string $view = 'filament.resources.product-resource.pages.checkout';
     public $intent = '';
@@ -57,19 +58,33 @@ class Checkout extends Page
         //stripe checkout
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
-        // $customer =  $stripe->customers->create([
-        //         'email' => $user->email,
-        //         'name' => $user->name,
-        //     ]);
 
-        $customer = $user->username;
+        //Obtiene el id de customer stripe del cliente, sino existe lo crea
+        $customer = $user->stripe_id;//stripe customer not user
+        if(!$customer){
+            $stripeCustomer =  $stripe->customers->create([
+                'email' => $user->email,
+                'name' => $user->name,
+            ]);
+            /** @var \App\Models\User $user **/
+            $user->stripe_id = $stripeCustomer->id;
+            $user->save();
+            $customer = $stripeCustomer->id;
+        }
         $paymentIntent = $stripe->paymentIntents->create([
             'payment_method_types' => ['card'],
             'amount' => $this->record->price,
             'currency' => 'mxn',
             'customer' => $customer,
+            'metadata' => [
+                'product_id' => $this->record->id,
+                'user_id' => $user->id,
+            ],
         ]);
 
         $this->clientSecret = $paymentIntent->client_secret;
     }
+
+
+
 }

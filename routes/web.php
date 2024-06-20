@@ -51,4 +51,7 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/addToCart', [ProductController::class, 'addToCart'])->name('addToCart');
 
+Route::post('/webhook', [StripeController::class, 'stripeWebhook'])->name('webhook');
+
+
 require __DIR__.'/auth.php';

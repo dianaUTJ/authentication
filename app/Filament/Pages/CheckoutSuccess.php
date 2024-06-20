@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use Filament\Pages\Page;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 
 
 class CheckoutSuccess extends Page
@@ -32,6 +33,9 @@ class CheckoutSuccess extends Page
             'currency' => $payment->currency,
             'customer' => $payment->customer,
             'stripe_status' => $payment->status,
+            'stripe_created' => $payment->created,
+            'user_id' => $payment->metadata->user_id,
+            'product_id' => $payment->metadata->product_id,
         ]);
         // dd($payment);
 
@@ -43,4 +47,6 @@ class CheckoutSuccess extends Page
     {
         // $this->savePayment(request());
     }
+
+
 }
