@@ -84,22 +84,65 @@ class StripeController extends Controller
 
         // Handle the event
         switch ($event->type) {
-            case 'payment_intent.succeeded':
-                $paymentIntent = $event->data->object;
+            case 'charge.succeeded':
+                $event = Payment::where('stripe_event_id', $event->id)->first();
+                if ($event) {
+                    echo '🔔 Event already processed';
+                    return;
+                } else {
+                    //If it doesnt exist, create a new payment record
+                    $charge = $event->data->object;
 
-                $payment = Payment::updateOrCreate([
-                    'stripe_id' => $paymentIntent->id,
-                    'amount' => $paymentIntent->amount,
-                    'currency' => $paymentIntent->currency,
-                    'customer' => $paymentIntent->customer,
-                    'stripe_status' => $paymentIntent->status,
-                    'stripe_created' => $paymentIntent->created,
-                    'user_id' => $paymentIntent->metadata->user_id,
-                    'product_id' => $paymentIntent->metadata->product_id,
-                ]);
-                // dd($payment);
+                    // Handle the event
+                    $payment = Payment::updateOrCreate(
+                        [
+                            'stripe_paymentIntent_id' => $charge->payment_intent
+                        ],
+                        [
+                            'amount' => $charge->amount,
+                            'currency' => $charge->currency,
+                            'customer' => $charge->customer,
+                            'stripe_status' => $charge->status,
+                            'stripe_created' => $charge->created,
+                            'user_id' => $charge->metadata->user_id,
+                            'product_id' => $charge->metadata->product_id,
+                            'stripe_event_id' => $event->id,
+                        ]
+                    );
+                    // dd($payment);
 
-                $payment->save();
+                    $payment->save();
+                }
+
+                break;
+            case 'charge.failed':
+                $event = Payment::where('stripe_event_id', $event->id)->first();
+                if ($event) {
+                    echo '🔔 Event already processed';
+                    return;
+                } else {
+                    //If it doesnt exist, create a new payment record
+                    $charge = $event->data->object;
+
+                    // Handle the event
+                    $payment = Payment::updateOrCreate(
+                        [
+                            'stripe_paymentIntent_id' => $charge->payment_intent
+                        ],
+                        [
+                            'amount' => $charge->amount,
+                            'currency' => $charge->currency,
+                            'customer' => $charge->customer,
+                            'stripe_status' => $charge->status,
+                            'stripe_created' => $charge->created,
+                            'user_id' => $charge->metadata->user_id,
+                            'product_id' => $charge->metadata->product_id,
+                            'stripe_event_id' => $event->id,
+                        ]
+                    );
+                    $payment->save();
+                }
+                echo '🔔 Payment failed';
                 break;
             default:
                 echo 'Received unknown event type ' . $event->type;

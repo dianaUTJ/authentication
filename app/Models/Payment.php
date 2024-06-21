@@ -11,7 +11,7 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'stripe_id',
+        'stripe_paymentIntent_id',
         'amount',
         'currency',
         'customer',
@@ -19,6 +19,7 @@ class Payment extends Model
         'stripe_created',
         'user_id',
         'product_id',
+        'stripe_event_id',
     ];
     public function product(): BelongsTo
     {
@@ -29,4 +30,6 @@ class Payment extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
 }
