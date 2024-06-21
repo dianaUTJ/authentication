@@ -27,7 +27,11 @@
             const elements = stripe.elements({
                 clientSecret: '{{ $clientSecret }}'
             })
-            const cardElement = elements.create('payment')
+            const cardElement = elements.create('payment', {
+                wallets: {
+                    googlePay: 'never'
+                }
+            })
 
             cardElement.mount('#payment-element')
 
