@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PaymentResource\Pages;
 use App\Filament\Resources\PaymentResource\RelationManagers;
 use App\Models\Payment;
-use DragonCode\Contracts\Cashier\Auth\Auth;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use NumberFormatter;
 use Filament\Tables\Filters\SelectFilter;
 use App\Models\User;
+use Filament\Tables\Columns\IconColumn;
+use Illuminate\Support\Facades\Auth;
 
 
 class PaymentResource extends Resource
@@ -47,12 +48,15 @@ class PaymentResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $user = User::find(Auth::user()->id);
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('stripe_paymentIntent_id')
-                ->hidden(fn() => ! auth()->user()->role='super_admin')
+                ->label(__('payment.payment_intent_id'))
+                ->visible(fn () => $user->hasRole('super_admin'))
                 ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
+                    ->label(__('payment.amount'))
                     ->numeric()
                     ->sortable()
                     ->formatStateUsing(function ($state) {
@@ -63,10 +67,25 @@ class PaymentResource extends Resource
                 // Tables\Columns\TextColumn::make('currency')
                 //     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('product.name'),
-                Tables\Columns\TextColumn::make('stripe_status')
-                    ->searchable(),
+                ->label(__('payment.user'))
+                ->searchable(),
+                Tables\Columns\TextColumn::make('product.name')
+                ->label(__('payment.product')),
+                IconColumn::make('stripe_status')
+                    ->label(__('payment.stripe_status'))
+                    ->size(IconColumn\IconColumnSize::Medium)
+                    ->icon(fn(string $state): string => match($state){
+                        'succeeded' => 'heroicon-o-check-circle',
+                        'failed' => 'heroicon-o-x-circle',
+                        default => 'heroicon-s-exclamation-circle',
+                    })
+                    ->color(fn (string $state): string => match ($state) {
+                        'succeeded' => 'success',
+                        'failed' => 'danger',
+                        default => 'gray',
+                    }),
+                // Tables\Columns\TextColumn::make('stripe_status')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('stripe_created')
                     ->dateTime()
                     ->sortable()
@@ -115,5 +134,11 @@ class PaymentResource extends Resource
             'create' => Pages\CreatePayment::route('/create'),
             'edit' => Pages\EditPayment::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->PaymentList();
     }
 }
