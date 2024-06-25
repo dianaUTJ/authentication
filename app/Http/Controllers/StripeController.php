@@ -85,14 +85,13 @@ class StripeController extends Controller
         // Handle the event
         switch ($event->type) {
             case 'charge.succeeded':
-                $event = Payment::where('stripe_event_id', $event->id)->first();
-                if ($event) {
+                $eventDB = Payment::where('stripe_event_id', $event->id)->first();
+                if ($eventDB) {
                     echo '🔔 Event already processed';
                     return;
                 } else {
                     //If it doesnt exist, create a new payment record
                     $charge = $event->data->object;
-
                     // Handle the event
                     $payment = Payment::updateOrCreate(
                         [
@@ -116,8 +115,8 @@ class StripeController extends Controller
 
                 break;
             case 'charge.failed':
-                $event = Payment::where('stripe_event_id', $event->id)->first();
-                if ($event) {
+                $eventDB = Payment::where('stripe_event_id', $event->id)->first();
+                if ($eventDB) {
                     echo '🔔 Event already processed';
                     return;
                 } else {

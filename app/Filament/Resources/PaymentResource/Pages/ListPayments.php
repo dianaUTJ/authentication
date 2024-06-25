@@ -21,7 +21,7 @@ class ListPayments extends ListRecords
     public function mount(): void
     {
         // $this->getPayments();
-        // $this->events();
+        // $this->updateEvents();
     }
 
 
@@ -60,7 +60,7 @@ class ListPayments extends ListRecords
         }
     }
 
-    public function events()
+    public function updateEvents()
     {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $history = $stripe->events->all([

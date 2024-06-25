@@ -47,12 +47,16 @@ class Checkout extends Page
         return __('$' . $this->record->price / 100);
     }
 
-    public function mount(int | string $record): void
+    public function mount(): void
+    {
+        $this->createPaymentIntent($this->record);
+    }
 
+
+    public function createPaymentIntent(int | string $record)
     {
 
         $user = Auth::user();
-        // dd($user);
         $this->record = $this->resolveRecord($record);
 
         //stripe checkout
@@ -84,7 +88,6 @@ class Checkout extends Page
 
         $this->clientSecret = $paymentIntent->client_secret;
     }
-
 
 
 }
