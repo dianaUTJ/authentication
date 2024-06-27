@@ -34,7 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         'email_verified_at',
         'image',
         'role',
-        'stripe_id',
+        'stripe_customer_id',
     ];
 
     /**

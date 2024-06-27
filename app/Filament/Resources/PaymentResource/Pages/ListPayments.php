@@ -7,6 +7,7 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Models\Payment;
 
+
 class ListPayments extends ListRecords
 {
     protected static string $resource = PaymentResource::class;

@@ -20,10 +20,6 @@ class Checkout extends Page
 
     protected static string $resource = ProductResource::class;
 
-    // protected static string $view = 'livewire.checkout';
-
-    // protected static ?string $title = 'Checkout';
-
 
     protected $listeners = ['checkout-success' => 'savePayment'];
 
@@ -64,14 +60,14 @@ class Checkout extends Page
 
 
         //Obtiene el id de customer stripe del cliente, sino existe lo crea
-        $customer = $user->stripe_id;//stripe customer not user
+        $customer = $user->stripe_customer_id;//stripe customer not user
         if(!$customer){
             $stripeCustomer =  $stripe->customers->create([
                 'email' => $user->email,
                 'name' => $user->name,
             ]);
             /** @var \App\Models\User $user **/
-            $user->stripe_id = $stripeCustomer->id;
+            $user->stripe_customer_id = $stripeCustomer->id;
             $user->save();
             $customer = $stripeCustomer->id;
         }
