@@ -28,19 +28,19 @@ clean, fluent manner.
 [Provide instructions on how to install and set up your project.]
 1. Install and set up [Laravel Herd](https://github.com/calebporzio/laravel-herd) to manage your server.
 2. Install and set up [DBngin](https://dbngin.com/) and [TablePlus](https://tableplus.com/) to manage your database.
-3. Navigate to the Herd folder.
-4. Clone the repository to your local machine using `git clone https://github.com/username/projectname.git`.
-5. Navigate to the project directory with `cd projectname`.
-6. Install the necessary dependencies with `composer install`.
+4. Clone the repository to your local machine on the Herd folder using `git clone https://github.com/username/projectname.git myprojectname`.
+5. Navigate to the project directory with `cd myprojectname`.
+6. Install composer dependencies with `composer install`.
 7. Copy the `.env.example` file to a new file named `.env` with `cp .env.example .env`.
-8. In the .env file change:
+9. Generate an application encryption key with `php artisan key:generate`.
+10. Create a database for the application.
+8. In the .env file add database information and the modify the following:
     APP_URL= [URL of your project]
-    APP_LOLCALE= es
+    APP_LOCALE= es
+    If using mysql:
     DB_CONNECTION= mysql
-    Uncomment: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD.
-    Change them to match your own database information.
+    Uncomment: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD and change them to match your own database information.
     Change from QUEUE_CONNECTION=database to QUEUE_CONNECTION=sync
-9. Generate an application key with `php artisan key:generate`.
 10. Run the database migrations with `php artisan migrate`.
 11. Start the local development server with `npm run dev`. The application will be available at `http://projectName.test/admin`.
 
@@ -54,13 +54,7 @@ Manage your database using DBngin and TablePlus. Refer to their respective docum
 
 [Explain how to use your project, including any necessary commands or configurations.]
 
-## Contributing
 
-[Explain how others can contribute to your project, including guidelines for submitting pull requests.]
-
-## License
-
-[Specify the license under which your project is distributed.]
 
 ## Contact
 
