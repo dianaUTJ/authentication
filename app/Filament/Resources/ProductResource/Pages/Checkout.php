@@ -49,15 +49,19 @@ class Checkout extends Page
     }
 
 
+    /**
+     * Create a payment intent for the specified record.
+     *
+     * @param int|string $record The ID of the record.
+     * @return void
+     */
     public function createPaymentIntent(int | string $record)
     {
-
         $user = Auth::user();
         $this->record = $this->resolveRecord($record);
 
         //stripe checkout
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-
 
         //Obtiene el id de customer stripe del cliente, sino existe lo crea
         $customer = $user->stripe_customer_id;//stripe customer not user

@@ -35,6 +35,12 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Scope to retrieve the payment list based on user's role.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
     public function scopePaymentList(Builder $query): void
     {
         $user = User::find(Auth::user()->id);

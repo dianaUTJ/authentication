@@ -22,7 +22,7 @@ class ListPayments extends ListRecords
     public function mount(): void
     {
         // $this->getPayments();
-        // $this->updateEvents();
+        // $this->updateCharges();
     }
 
 
@@ -61,7 +61,15 @@ class ListPayments extends ListRecords
         }
     }
 
-    public function updateEvents()
+
+
+    /**
+     * Updates the charges by retrieving payment events from Stripe and updating the corresponding payment records.
+     *
+     * @return void
+     */
+
+    public function updateCharges()
     {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         $history = $stripe->events->all([

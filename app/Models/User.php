@@ -87,6 +87,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         $query->where('id', auth()->id());
     }
 
+    /**
+     * Scope to retrieve the list of users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
     public function scopeUserList(Builder $query): void
     {
         if( auth()->user()->role != 'super_admin' ) {
@@ -94,6 +100,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         }
     }
 
+    /**
+     * Scope to retrieve users who are not admins.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
     public function scopeIsNotAdmin(Builder $query): void
     {
         $query->whereDoesntHave('roles', function ($query) {

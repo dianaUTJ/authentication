@@ -50,9 +50,14 @@ class StripeController extends Controller
 
 
 
+    /**
+     * Handles the Stripe webhook event.
+     *
+     * @return void
+     */
+
     public function stripeWebhook()
     {
-
         // The library needs to be configured with your account's secret key.
         // Ensure the key is kept out of any version control system you might be using.
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
@@ -108,7 +113,6 @@ class StripeController extends Controller
                             'stripe_event_id' => $event->id,
                         ]
                     );
-                    // dd($payment);
 
                     $payment->save();
                 }

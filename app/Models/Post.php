@@ -28,6 +28,12 @@ class Post extends Model
         'status',
     ];
 
+    /**
+     * Scope a query to only include user's posts.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
     public function scopeUserPosts(Builder $query): void
     {
         $user = User::find(Auth::user()->id);
