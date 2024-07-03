@@ -1,66 +1,67 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Filament Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Description
 
-## About Laravel
+This is a Laravel application that uses the Filament admin panel for managing users, products, and payments. It includes a robust system for managing user roles and permissions. It integrates with the Stripe API for handling payments.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- User Management: Create, update, and delete users.
+- Product Management: Add, edit, and remove products.
+- Payment Management: Track and manage payments using Stripe.
+- Role-Based Access Control: Assign roles and permissions to users to control access to various parts of the application.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requirements
 
-## Learning Laravel
+- PHP >= 8.3: Laravel and Filament require a PHP version of 8.3 or higher.
+- Composer: This is a tool for dependency management in PHP. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
+- Node.js and npm: These are required for compiling assets with Laravel Mix.
+- Laravel Herd >= 1.7.1 : This is used to manage your server.
+- DBngin: A native application which helps you easily bootstrap a database server.
+- TablePlus: A native application which helps you easily edit database contents and structure in a
+clean, fluent manner.
+- Stripe Account: Since the application uses Stripe for payment processing, you'll need a Stripe account and API keys.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Installation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+[Provide instructions on how to install and set up your project.]
+1. Install and set up [Laravel Herd](https://github.com/calebporzio/laravel-herd) to manage your server.
+2. Install and set up [DBngin](https://dbngin.com/) and [TablePlus](https://tableplus.com/) to manage your database.
+3. Navigate to the Herd folder.
+4. Clone the repository to your local machine using `git clone https://github.com/username/projectname.git`.
+5. Navigate to the project directory with `cd projectname`.
+6. Install the necessary dependencies with `composer install`.
+7. Copy the `.env.example` file to a new file named `.env` with `cp .env.example .env`.
+8. In the .env file change:
+    APP_URL= [URL of your project]
+    APP_LOLCALE= es
+    DB_CONNECTION= mysql
+    Uncomment: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD.
+    Change them to match your own database information.
+    Change from QUEUE_CONNECTION=database to QUEUE_CONNECTION=sync
+9. Generate an application key with `php artisan key:generate`.
+10. Run the database migrations with `php artisan migrate`.
+11. Start the local development server with `npm run dev`. The application will be available at `http://projectName.test/admin`.
 
-## Laravel Sponsors
+## Usage
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+After starting the server with Laravel Herd, navigate to `http://projectName.test/admin` in your web browser. 
+Register for an account on filament with
+`php artisan make:filament-user` then log in to start managing users, products, and payments. Use the Filament admin panel to manage roles and permissions. Payments are handled through Stripe, so you'll need to configure your Stripe API keys in the `.env` file.
 
-### Premium Partners
+Manage your database using DBngin and TablePlus. Refer to their respective documentation for detailed usage instructions.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+[Explain how to use your project, including any necessary commands or configurations.]
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+[Explain how others can contribute to your project, including guidelines for submitting pull requests.]
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+[Specify the license under which your project is distributed.]
+
+## Contact
+
+[Provide contact information for users to reach out to you.]
