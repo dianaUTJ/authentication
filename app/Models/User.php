@@ -15,11 +15,11 @@ use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
-
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 {
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +33,8 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         'username',
         'email_verified_at',
         'image',
-        'role'
+        'role',
+        'stripe_customer_id',
     ];
 
     /**
@@ -61,7 +62,13 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->image;
+        if ($this->image) {
+            return asset($this->image);
+        } else  {
+            return null;
+        }
+        // return $this->image();
+
         // return asset($this->image);
     }
 
@@ -70,11 +77,22 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         return $this->hasMany(Post::class);
     }
 
+    public function payments() : HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function scopeLoggedUser(Builder $query): void
     {
         $query->where('id', auth()->id());
     }
 
+    /**
+     * Scope to retrieve the list of users.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
     public function scopeUserList(Builder $query): void
     {
         if( auth()->user()->role != 'super_admin' ) {
@@ -82,9 +100,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
         }
     }
 
+    /**
+     * Scope to retrieve users who are not admins.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
     public function scopeIsNotAdmin(Builder $query): void
     {
         $query->whereDoesntHave('roles', function ($query) {
              $query->where('name', 'super_admin');});
     }
+
 }
