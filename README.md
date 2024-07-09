@@ -28,13 +28,13 @@ clean, fluent manner.
 [Provide instructions on how to install and set up your project.]
 1. Install and set up [Laravel Herd](https://github.com/calebporzio/laravel-herd) to manage your server.
 2. Install and set up [DBngin](https://dbngin.com/) and [TablePlus](https://tableplus.com/) to manage your database.
-4. Clone the repository to your local machine on the Herd folder using `git clone https://github.com/username/projectname.git myprojectname`.
-5. Navigate to the project directory with `cd myprojectname`.
-6. Install composer dependencies with `composer install`.
-7. Copy the `.env.example` file to a new file named `.env` with `cp .env.example .env`.
-9. Generate an application encryption key with `php artisan key:generate`.
-10. Create a database for the application.
-8. In the .env file add database information and the modify the following:
+3. Clone the repository to your local machine on the Herd folder using `git clone https://github.com/username/projectname.git myprojectname`.
+4. Navigate to the project directory with `cd myprojectname`.
+5. Install composer dependencies with `composer install`.
+6. Copy the `.env.example` file to a new file named `.env` with `cp .env.example .env`.
+7. Generate an application encryption key with `php artisan key:generate`.
+8. Create a database for the application.
+9. In the .env file add database information and the modify the following:
     APP_URL= [URL of your project]
     APP_LOCALE= es
     If using mysql:
