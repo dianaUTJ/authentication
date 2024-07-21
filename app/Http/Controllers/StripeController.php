@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\paymentFailedMail;
+use App\Mail\paymentSuccessfulMail;
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
+
 
 class StripeController extends Controller
 {
@@ -12,6 +18,7 @@ class StripeController extends Controller
         return view('stripe');
     }
 
+    //For stripe checkout session
     public function checkout()
     {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
@@ -36,17 +43,17 @@ class StripeController extends Controller
         return redirect($session->url);
     }
 
-    public function success()
-    {
-        session()->flash('success', 'Payment successful!');
-        return view('stripe');
-    }
+    // public function success()
+    // {
+    //     session()->flash('success', 'Payment successful!');
+    //     return view('stripe');
+    // }
 
-    public function cancel()
-    {
-        session()->flash('success', 'Payment failed');
-        return view('stripe');
-    }
+    // public function cancel()
+    // {
+    //     session()->flash('success', 'Payment failed');
+    //     return view('stripe');
+    // }
 
 
 
@@ -113,8 +120,19 @@ class StripeController extends Controller
                             'stripe_event_id' => $event->id,
                         ]
                     );
-
                     $payment->save();
+
+                    // Send email to user
+
+                    $user = User::find($charge->metadata->user_id);
+                    $product = Product::find($charge->metadata->product_id);
+                    $data = [
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'product' => $product->name,
+                        'amount' => $charge->amount,
+                    ];
+                    Mail::to($data['email'])->send(new paymentSuccessfulMail($data));
                 }
 
                 break;
@@ -144,6 +162,24 @@ class StripeController extends Controller
                         ]
                     );
                     $payment->save();
+
+                    //send email to admin
+
+                    $userAdmins = User::isAdmin()->get();
+                    $user = User::find($charge->metadata->user_id);
+                    $product = Product::find($charge->metadata->product_id);
+                    foreach ($userAdmins as $userAdmin) {
+                        $email = $userAdmin->email;
+                        $data = [
+                            'name' => $user->name,
+                            'email' => $email,
+                            'product' => $product->name,
+                            'amount' => $charge->amount,
+                            'paymentId' => $charge->payment_intent,
+                        ];
+                        Mail::to($data['email'])->send(new paymentFailedMail($data));
+                    }
+
                 }
                 echo '🔔 Payment failed';
                 break;

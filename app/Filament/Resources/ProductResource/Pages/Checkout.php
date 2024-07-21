@@ -45,6 +45,7 @@ class Checkout extends Page
 
     public function mount(): void
     {
+        $this->checkLogin();
         $this->createPaymentIntent($this->record);
     }
 
@@ -89,5 +90,13 @@ class Checkout extends Page
         $this->clientSecret = $paymentIntent->client_secret;
     }
 
+    public function checkLogin(): void
+    {
+        if (!Auth::check()) {
+            $this->redirect(route('filament.admin.auth.login'));
+        } else {
+
+        }
+    }
 
 }

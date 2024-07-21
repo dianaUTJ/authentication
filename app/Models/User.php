@@ -112,4 +112,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
              $query->where('name', 'super_admin');});
     }
 
+    public function scopeIsAdmin(Builder $query): void
+    {
+        $query->whereHas('roles', function ($query) {
+             $query->where('name', 'super_admin');});
+    }
+
+
+
 }
