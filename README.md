@@ -52,10 +52,6 @@ Register for an account on filament with
 
 Manage your database using DBngin and TablePlus. Refer to their respective documentation for detailed usage instructions.
 
-[Explain how to use your project, including any necessary commands or configurations.]
 
 
 
-## Contact
-
-[Provide contact information for users to reach out to you.]

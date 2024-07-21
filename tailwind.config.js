@@ -10,7 +10,8 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
         './app/Livewire/**/*.php',
-'./resources/views/livewire/**/*.blade.php',
+        './resources/views/livewire/**/*.blade.php',
+        './resources/views/components/**/*.blade.php',
     ],
 
     theme: {
