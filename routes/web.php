@@ -1,12 +1,17 @@
 <?php
 
+use App\Filament\Pages\Shop;
+use App\Filament\Resources\ProductResource;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\ProductController;
+use App\Livewire\ListProducts;
 use Illuminate\Http\Request;
+use App\Livewire\ViewProduct;
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -53,5 +58,8 @@ Route::post('/addToCart', [ProductController::class, 'addToCart'])->name('addToC
 
 Route::post('/webhook', [StripeController::class, 'stripeWebhook'])->name('webhook');
 
+Route::get('/shop', Shop::class)->name('shop');
+Route::get('/list', ListProducts::class);
+Route::get('products/{record}', ViewProduct::class)->name('products.show');
 
 require __DIR__.'/auth.php';
