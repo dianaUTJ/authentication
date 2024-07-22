@@ -51,7 +51,7 @@ clean, fluent manner.
 After starting the server with Laravel Herd, navigate to `http://projectName.test/admin` in your web browser. 
 You can add users to the panel with `php artisan make:filament-user`or using the new user option on the users resource.
 You can change the user with the super-admin role or created with: `php artisan shield:super-admin` it will prompt you to select the id of the user.
-Use the Filament admin panel to manage roles and permissions. Payments are handled through Stripe, so you'll need to configure your Stripe API keys in the `.env` file.
+Use the Filament admin panel to manage roles and permissions. Payments are handled through Stripe, so you'll need to configure your Stripe API keys in the `.env` file. With the names: STRIPE_KEY, STRIPE_SECRET and STRIPE_WEBHOOK_SECRET.
 For Stripe to work properly is necesary to secure the site on Herd to use https instead of http.
 
 Manage your database using DBngin and TablePlus. Refer to their respective documentation for detailed usage instructions.
