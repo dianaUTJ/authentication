@@ -59,6 +59,6 @@ Route::post('/addToCart', [ProductController::class, 'addToCart'])->name('addToC
 Route::post('/webhook', [StripeController::class, 'stripeWebhook'])->name('webhook');
 
 Route::get('/store', ListProducts::class);
-Route::get('products/{record}', ViewProduct::class)->name('products.show');
+Route::get('/store/products/{record}', ViewProduct::class)->name('products.show');
 
 require __DIR__.'/auth.php';
