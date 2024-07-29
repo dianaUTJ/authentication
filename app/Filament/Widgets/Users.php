@@ -9,6 +9,8 @@ use Filament\Widgets\TableWidget as BaseWidget;
 use App\Filament\Resources\UserResource\Pages;
 use Filament\Tables\Columns\ImageColumn;
 use BezhanSalleh\FilamentShield\Traits\HasWidgetShield;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 
 use app\Models\User;
@@ -44,11 +46,22 @@ class Users extends BaseWidget
                 ->toggleable(isToggledHiddenByDefault: true),
             ImageColumn::make('image'),
             ])
+            ->filters([
+                Tables\Filters\TrashedFilter::make(),
+            ])
             ->actions([
                 // Tables\Actions\ViewAction::make()
                 // ->url(fn (User $record): string=>UserResource::getUrl('view',['record'=>$record])),
                 Tables\Actions\EditAction::make()
                 ->url(fn (User $record): string=>UserResource::getUrl('edit',['record'=>$record])),
+            ]);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
             ]);
     }
 

@@ -25,33 +25,38 @@ clean, fluent manner.
 
 ## Installation
 
-[Provide instructions on how to install and set up your project.]
 1. Install and set up [Laravel Herd](https://github.com/calebporzio/laravel-herd) to manage your server.
 2. Install and set up [DBngin](https://dbngin.com/) and [TablePlus](https://tableplus.com/) to manage your database.
 3. Clone the repository to your local machine on the Herd folder using `git clone https://github.com/username/projectname.git myprojectname`.
 4. Navigate to the project directory with `cd myprojectname`.
 5. Install composer dependencies with `composer install`.
-6. Copy the `.env.example` file to a new file named `.env` with `cp .env.example .env`.
-7. Generate an application encryption key with `php artisan key:generate`.
-8. Create a database for the application.
-9. In the .env file add database information and the modify the following:
-    APP_URL= [URL of your project]
-    APP_LOCALE= es
-    If using mysql:
-    DB_CONNECTION= mysql
-    Uncomment: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD and change them to match your own database information.
-    Change from QUEUE_CONNECTION=database to QUEUE_CONNECTION=sync
-10. Run the database migrations with `php artisan migrate`.
-11. Start the local development server with `npm run dev`. The application will be available at `http://projectName.test/admin`.
+6. Install node module with `npm install` and wait for it to complete.
+7. Copy the `.env.example` file to a new file named `.env` with `cp .env.example .env`.
+8. Generate an application encryption key with `php artisan key:generate`.
+9. Create a database for the application on tableplus.
+10. In the .env file add database information and the modify the following:
+    - `APP_URL`= [URL of your project how its shown on Herd]
+    - `APP_LOCALE`= es
+    - If using mysql:
+    - `DB_CONNECTION`= mysql
+    - Uncomment: `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` and change them to match your own database information.
+    - Change from `QUEUE_CONNECTION=database` to `QUEUE_CONNECTION=sync`
+11. Run the database migrations with `php artisan migrate`.
+12. Register for an account on filament with `php artisan make:filament-user` to be able to use the panel.
+13. Install filament shield to mange roles and permissions with `php artisan shield:install --fresh` if you have more than one user it will also prompt the creation of a Super Admin role using one of the users.
+14. Start the local development server with `npm run dev`. The application will be available at `http://projectName.test/admin`.
 
 ## Usage
 
-After starting the server with Laravel Herd, navigate to `http://projectName.test/admin` in your web browser. 
-Register for an account on filament with
-`php artisan make:filament-user` then log in to start managing users, products, and payments. Use the Filament admin panel to manage roles and permissions. Payments are handled through Stripe, so you'll need to configure your Stripe API keys in the `.env` file.
+- After starting the server with Laravel Herd, navigate to `http://projectName.test/admin` in your web browser. 
+- You can add users to the panel with `php artisan make:filament-user`or using the new user option on the users resource.
+- You can change the user with the super-admin role or created with: `php artisan shield:super-admin` it will prompt you to select the id of the user.
+- Use the Filament admin panel to manage roles and permissions. Payments are handled through Stripe, so you'll need to create a Stripe account and configure your Stripe API keys in the `.env` file. With the names: `STRIPE_KEY`, `STRIPE_SECRET` and `STRIPE_WEBHOOK_SECRET`.
+- For Stripe to work properly is necesary to secure the site on Herd to use https instead of http.
 
-Manage your database using DBngin and TablePlus. Refer to their respective documentation for detailed usage instructions.
+- Manage your database using DBngin and TablePlus. Refer to their respective documentation for detailed usage instructions.
+-Diagrams for payment and webhook workflow can be found on the diagram folder on root.
 
-
+- To test emails sent use [mailhog](https://github.com/mailhog/MailHog).Install it using the instructions. Configure it in the `.env` file changing `MAIL_MAILER=log` to `MAIL_MAILER=smtp` and the `MAIL_PORT=1025`. You can change the MAIL_ address, username, etc. to adapt it to your project or review the documentation for more details.
 
 

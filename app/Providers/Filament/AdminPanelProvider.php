@@ -19,7 +19,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Auth\EditProfile;
 use Closure;
-
+use PharIo\Manifest\Email;
 
 class AdminPanelProvider extends PanelProvider
 {

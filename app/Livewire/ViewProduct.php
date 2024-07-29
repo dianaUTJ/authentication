@@ -19,6 +19,9 @@ use Filament\Infolists\Components\Actions\Action;
 use Filament\Infolists\Components\ViewEntry;
 use Filament\Infolists\Set;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\Section;
+
+
 
 
 
@@ -44,7 +47,10 @@ class ViewProduct extends Component implements HasForms, HasInfolists
     {
         return $infolist
             ->record($this->product)
+
             ->schema([
+                Section::make('')
+                ->schema([
                 TextEntry::make('name')
                     ->label(__('product.name')),
                 TextEntry::make('price')
@@ -56,17 +62,16 @@ class ViewProduct extends Component implements HasForms, HasInfolists
                         return $formatter->formatCurrency($state / 100, 'mxn');
                     }),
 
+                    Actions::make([
+                        Action::make('Buy product')
+                            ->icon('heroicon-o-shopping-bag')
+                        ->url(fn(Product $record): string =>  route('filament.admin.resources.products.checkout', ['record' => $record]))
 
-            // Actions::make([
-            //     Action::make('Buy')
-            //         ->icon('heroicon-m-clipboard')
+                    ])
+                    ])
 
-            //         ->button()
-            //     // ->url(fn(): string =>  route('filament.admin.auth.login'))
-            //     // ->recordUrl(fn(Product $record) => route('products.show', ['record' => $record]))
-            //     ->url(fn(Product $record): string =>  route('filament.admin.resources.products.checkout', ['record' => $record]))
 
-            // ])
+
 
                 ]);
 
@@ -81,9 +86,6 @@ class ViewProduct extends Component implements HasForms, HasInfolists
     {
 
         return redirect()->route('filament.admin.resources.products.checkout', ['record' => $this->product]);
-                // ->url(fn(): string =>  route('filament.admin.auth.login'))
-                // ->recordUrl(fn(Product $record) => route('products.show', ['record' => $record]))
-                // ->url(fn(Product $record): string =>  route('filament.admin.resources.products.checkout', ['record' => $record]));
 
     }
 

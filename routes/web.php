@@ -12,6 +12,7 @@ use App\Livewire\ListProducts;
 use Illuminate\Http\Request;
 use App\Livewire\ViewProduct;
 
+ Route::redirect('/', '/admin/login');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -58,8 +59,7 @@ Route::post('/addToCart', [ProductController::class, 'addToCart'])->name('addToC
 
 Route::post('/webhook', [StripeController::class, 'stripeWebhook'])->name('webhook');
 
-Route::get('/shop', Shop::class)->name('shop');
-Route::get('/list', ListProducts::class);
-Route::get('products/{record}', ViewProduct::class)->name('products.show');
+Route::get('/store', ListProducts::class);
+Route::get('/store/products/{record}', ViewProduct::class)->name('products.show');
 
 require __DIR__.'/auth.php';

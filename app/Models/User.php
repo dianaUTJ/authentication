@@ -10,14 +10,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
-use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Cashier\Billable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 
-class User extends Authenticatable implements MustVerifyEmail, HasAvatar
+class User extends Authenticatable implements MustVerifyEmail, HasAvatar, FilamentUser
 {
     use HasFactory, Notifiable, HasRoles, SoftDeletes, Billable;
 
@@ -59,17 +60,23 @@ class User extends Authenticatable implements MustVerifyEmail, HasAvatar
             'password' => 'hashed',
         ];
     }
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
 
+    /**
+     * Get the Filament avatar URL for the user.
+     *
+     * @return string|null The URL of the avatar image, or null if no image is set.
+     */
     public function getFilamentAvatarUrl(): ?string
     {
         if ($this->image) {
             return asset($this->image);
-        } else  {
+        } else {
             return null;
         }
-        // return $this->image();
-
-        // return asset($this->image);
     }
 
     public function posts() : HasMany
