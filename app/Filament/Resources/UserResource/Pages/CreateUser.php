@@ -20,15 +20,16 @@ class CreateUser extends CreateRecord
         $data['password'] = 'password';
 
         Mail::to($data['email'])->send(new NewUserMail($data));
+
         return $data;
     }
     // protected function afterCreate(): void
     // {
     //     $user = $this->record;
-    //     $dataToSend = array(
-    //         'name' => $user->name,
-    //         'password' => $user->password,
-    //     );
-    //     Mail::to($user->email)->send(new NewUserMail($dataToSend));
+    //     if ($user) {
+    //         $user->sendEmailVerificationNotification();
+    //     } else {
+    //         throw new \Exception('User not found');
+    //     }
     // }
 }

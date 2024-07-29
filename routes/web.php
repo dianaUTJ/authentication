@@ -12,6 +12,7 @@ use App\Livewire\ListProducts;
 use Illuminate\Http\Request;
 use App\Livewire\ViewProduct;
 
+ Route::redirect('/', '/admin/login');
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
